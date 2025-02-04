@@ -29,8 +29,7 @@ class socketState extends EventEmitter {
 		this.socket = new WebSocket(`${protocol}://${host}/websocket`);
 
 		this.socket.addEventListener('open', () => {
-			console.log('[WebSocket] Connection established');
-			// Clear any existing reconnect timers
+
 			if (this.reconnectTimer) {
 				clearTimeout(this.reconnectTimer);
 				this.reconnectTimer = null;
@@ -55,9 +54,9 @@ class socketState extends EventEmitter {
 
 	private scheduleReconnect() {
 		if (!this.reconnectTimer) {
-			console.log(`[WebSocket] Attempting to reconnect in ${this.reconnectInterval}ms...`);
+
 			this.reconnectTimer = setTimeout(() => {
-				console.log('[WebSocket] Reconnecting...');
+
 				this.connect();
 			}, this.reconnectInterval);
 		}
@@ -67,8 +66,6 @@ class socketState extends EventEmitter {
 		if (event.data) {
 			try {
 				const newmessage = JSON.parse(event.data);
-				console.log(newmessage);
-				console.log(event);
 				this.messages.push(newmessage);
 				this.emit(newmessage.type, newmessage.data);
 				this.emit('message', newmessage); // global broadcast

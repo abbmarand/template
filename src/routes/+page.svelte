@@ -10,7 +10,6 @@
 
     onMount(() => {
         socket.on("message", (message) => {
-            console.log("Received message:", message);
             responses.push(message);
         });
     });

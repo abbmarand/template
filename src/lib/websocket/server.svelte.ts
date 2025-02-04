@@ -17,7 +17,6 @@ export const onHttpServerUpgrade = (req: IncomingMessage, sock: Duplex, head: Bu
 	const wss = (globalThis as ExtendedGlobal)[GlobalThisWSS];
 
 	wss.handleUpgrade(req, sock, head, (ws) => {
-		console.log('[handleUpgrade] creating new connection');
 		wss.emit('connection', ws as ExtendedWebSocket, req);
 	});
 };
@@ -47,14 +46,8 @@ export const createWSSGlobalInstance = () => {
 			lastActivity: new Date()
 		});
 
-		console.log(`Client connected: ${socketId}`);
-
 		extWs.on('close', () => {
-			console.log(`Client disconnected: ${socketId}`);
 			clientInfo.delete(socketId);
-			if (extWs.userId) {
-				console.log(`User ${extWs.userId} disconnected`);
-			}
 		});
 
 		extWs.on('error', (error: Error) => {

@@ -16,7 +16,6 @@ async function authorizationHandle({ event, resolve }: { event: any; resolve: an
         }
     }
 
-    console.log(session);
 
     if (session) {
         const user = await prisma.user.findUnique({ where: { email: session.user.email } });
@@ -51,7 +50,6 @@ const startupWebsocketServer = async (event: { locals: { auth: () => any; user?:
 
 async function webSocketHandle({ event, resolve }: { event: any; resolve: any }) {
     await startupWebsocketServer(event);
-    console.log(event.locals);
     if (!building) {
         const wss = (globalThis as ExtendedGlobal)[GlobalThisWSS];
         if (wss !== undefined) {
