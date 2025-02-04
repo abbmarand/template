@@ -27,6 +27,14 @@
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.7.4",
 		"@auth/sveltekit": "^1.7.4",
-		"@prisma/client": "^5.22.0"
+		"@prisma/client": "^5.22.0",
+		"@types/events": "^3.0.3",
+		"@types/ws": "^8.5.14",
+		"events": "^3.3.0",
+		"http": "^0.0.1-security",
+		"stream": "^0.0.3",
+		"url": "^0.11.4",
+		"uuid": "^11.0.5",
+		"ws": "^8.18.0"
 	}
 }
