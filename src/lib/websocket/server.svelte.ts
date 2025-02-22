@@ -69,7 +69,11 @@ export const getGlobalWss = (): ExtendedWebSocketServer => {
 	return wss;
 };
 
-export const broadcastToUsers = (wss: ExtendedWebSocketServer, userIds: string[], message: any) => {
+export const broadcastToUsers = (
+	wss: ExtendedWebSocketServer,
+	userIds: string[],
+	message: unknown
+) => {
 	const messageStr = typeof message === 'string' ? message : JSON.stringify(message);
 
 	wss.clients.forEach((client: WebSocket) => {
@@ -80,7 +84,7 @@ export const broadcastToUsers = (wss: ExtendedWebSocketServer, userIds: string[]
 	});
 };
 
-export const broadcastToUsersGlobal = (userIds: string[], message: any) => {
+export const broadcastToUsersGlobal = (userIds: string[], message: unknown) => {
 	const wss = getGlobalWss();
 	const messageStr = typeof message === 'string' ? message : JSON.stringify(message);
 
@@ -92,7 +96,7 @@ export const broadcastToUsersGlobal = (userIds: string[], message: any) => {
 	});
 };
 
-export const broadcastToUsersWithoutLocals = (userIds: string[], message: any) => {
+export const broadcastToUsersWithoutLocals = (userIds: string[], message: unknown) => {
 	const wss = getGlobalWss();
 	const messageStr = typeof message === 'string' ? message : JSON.stringify(message);
 

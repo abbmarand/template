@@ -3,12 +3,17 @@ import { browser } from '$app/environment';
 
 interface MessageEvent {
 	type: string;
-	data: any;
+	data: string;
+}
+
+interface WebSocketMessage {
+	type: string;
+	data: unknown;
 }
 
 class socketState extends EventEmitter {
 	private socket: WebSocket | null = null;
-	messages: MessageEvent[] = [];
+	messages: WebSocketMessage[] = [];
 
 	// Reconnect configs
 	private reconnectInterval = 5000; // 5 seconds
@@ -29,7 +34,6 @@ class socketState extends EventEmitter {
 		this.socket = new WebSocket(`${protocol}://${host}/websocket`);
 
 		this.socket.addEventListener('open', () => {
-
 			if (this.reconnectTimer) {
 				clearTimeout(this.reconnectTimer);
 				this.reconnectTimer = null;
@@ -54,9 +58,7 @@ class socketState extends EventEmitter {
 
 	private scheduleReconnect() {
 		if (!this.reconnectTimer) {
-
 			this.reconnectTimer = setTimeout(() => {
-
 				this.connect();
 			}, this.reconnectInterval);
 		}
@@ -65,7 +67,7 @@ class socketState extends EventEmitter {
 	private onMessage(event: MessageEvent) {
 		if (event.data) {
 			try {
-				const newmessage = JSON.parse(event.data);
+				const newmessage = JSON.parse(event.data) as WebSocketMessage;
 				this.messages.push(newmessage);
 				this.emit(newmessage.type, newmessage.data);
 				this.emit('message', newmessage); // global broadcast
